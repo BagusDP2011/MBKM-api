@@ -18,12 +18,14 @@ async function getLogbookMentorship(mentorId) {
 }
 
 async function createLogbook(logbook) {
+  const dateObject = new Date(logbook.Date);
+
   const result = await db.query(
     `INSERT INTO tbllogbook (SubmissionID, Date, Label) VALUES(?,?,?)`,
-    [logbook.SubmissionID,logbook.Date, logbook.Label]
+    [logbook.SubmissionID, dateObject, logbook.Label]
   );
 
-  let message = "Error in submit logbook";
+  let message = "Error in submitting logbook";
 
   if (result.affectedRows) {
     message = "Logbook created successfully";
@@ -33,7 +35,7 @@ async function createLogbook(logbook) {
 }
 
 module.exports = {
-    getLogbookBySubmissionID,
-    getLogbookMentorship,
-    createLogbook
-}
+  getLogbookBySubmissionID,
+  getLogbookMentorship,
+  createLogbook,
+};

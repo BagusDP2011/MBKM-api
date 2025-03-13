@@ -1,11 +1,42 @@
 const db = require("./db.service");
 const helper = require("../utils/helper.util");
 
+// async function create(submissionId, s) {
+//   const result = await db.query(
+//     `INSERT INTO tblsubmission
+//     (SubmissionID,StudentID,ProdiID,ProgramType,Reason,Title,InstitutionName,StartDate,EndDate,Position,ActivityDetails,LecturerGuardianID,Status,SubmissionDate)
+//     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())`,
+//     [
+//       submissionId,
+//       s.StudentID,
+//       s.ProdiID,
+//       s.ProgramType,
+//       s.Reason,
+//       s.Title,
+//       s.InstitutionName,
+//       s.StartDate,
+//       s.EndDate,
+//       s.Position,
+//       s.ActivityDetails,
+//       s.LecturerGuardianID,
+//       "Pending",
+//     ]
+//   );
+
+//   let message = "Error in submit Submission";
+
+//   if (result.affectedRows) {
+//     message = "Submission created successfully";
+//   }
+
+//   return { message };
+// }
+
 async function create(submissionId, s) {
   const result = await db.query(
     `INSERT INTO tblsubmission
-    (SubmissionID,StudentID,ProdiID,ProgramType,Reason,Title,InstitutionName,StartDate,EndDate,Position,ActivityDetails,LecturerGuardianID,Status,SubmissionDate)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())`,
+    (SubmissionID, StudentID, ProdiID, ProgramType, Reason, Title, InstitutionName, StartDate, EndDate, Position, ActivityDetails, LecturerGuardianID, Status, SubmissionDate)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
     [
       submissionId,
       s.StudentID,
@@ -14,8 +45,8 @@ async function create(submissionId, s) {
       s.Reason,
       s.Title,
       s.InstitutionName,
-      s.StartDate,
-      s.EndDate,
+      new Date(s.StartDate),  // Converts string to Date
+      new Date(s.EndDate),
       s.Position,
       s.ActivityDetails,
       s.LecturerGuardianID,
@@ -31,6 +62,7 @@ async function create(submissionId, s) {
 
   return { message };
 }
+
 
 async function updateSubmissionApproval(
   submissionId,
