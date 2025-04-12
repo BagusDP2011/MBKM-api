@@ -21,8 +21,8 @@ async function createLogbook(logbook) {
   const dateObject = new Date(logbook.Date);
 
   const result = await db.query(
-    `INSERT INTO tbllogbook (SubmissionID, Date, Label) VALUES(?,?,?)`,
-    [logbook.SubmissionID, dateObject, logbook.Label]
+    `INSERT INTO tbllogbook (SubmissionID, Date, Label, Deskripsi) VALUES(?,?,?,?)`,
+    [logbook.SubmissionID, dateObject, logbook.Label, logbook.Deskripsi]
   );
 
   let message = "Error in submitting logbook";
