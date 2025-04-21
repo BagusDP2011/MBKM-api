@@ -34,8 +34,31 @@ async function createLogbook(logbook) {
   return { message };
 }
 
+async function getFinalReportBySubmissionId(submissionId, userId) {
+  const query = `
+    SELECT fr.*
+    FROM tbllaporanakhirattachment fr
+    JOIN tblsubmission s ON fr.SubmissionID = s.SubmissionID
+    WHERE s.StudentID = ? AND s.SubmissionID = ?
+  `;
+  const result = await db.query(query, [userId, submissionId]);
+  return result;
+}
+
+async function deleteFinalReportById(id) {
+  await db.query(
+    `DELETE FROM tbllaporanakhirattachment WHERE LAAttachmentID = '${id}'`
+  );
+
+  let message = "Submission has been deleted";
+
+  return { message };
+}
+
 module.exports = {
   getLogbookBySubmissionID,
   getLogbookMentorship,
   createLogbook,
+  getFinalReportBySubmissionId,
+  deleteFinalReportById
 };

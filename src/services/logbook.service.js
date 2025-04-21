@@ -1,4 +1,5 @@
 const logbookRepo = require("../repository/logbook.repository");
+const attachmentRepo = require("../repository/attachment.repository")
 
 async function createLogbook(logbook) {
   return await logbookRepo.createLogbook(logbook);
@@ -25,8 +26,26 @@ const formatDate = (date) => {
   return d.toISOString().split("T")[0];
 };
 
+
+async function getFinalReportBySubmissionId(submissionId, userId) {
+  return await logbookRepo.getFinalReportBySubmissionId(submissionId, userId);;
+}
+
+
+async function uploadFinalReport(submissionId, attachment) {
+  return await attachmentRepo.addAttachmentFinalReport(submissionId, attachment);
+}
+
+const deleteFinalReportById = async (id) => {
+  const result = await logbookRepo.deleteFinalReportById(id);
+  return result;
+};
+
 module.exports = {
   createLogbook,
   getLogbookBySubmissionID,
-  getLogbookMentorship
+  getLogbookMentorship,
+  uploadFinalReport,
+  getFinalReportBySubmissionId,
+  deleteFinalReportById
 };
