@@ -41,11 +41,16 @@ const deleteFinalReportById = async (id) => {
   return result;
 };
 
+//Kuisioner
+async function createKuisioner(data) {
+  return await logbookRepo.createKuisioner(data);
+}
 module.exports = {
   createLogbook,
   getLogbookBySubmissionID,
   getLogbookMentorship,
   uploadFinalReport,
   getFinalReportBySubmissionId,
-  deleteFinalReportById
+  deleteFinalReportById,
+  createKuisioner,
 };

@@ -10,4 +10,7 @@ router.get('/logbook/:submissionId', authenticateToken.authenticateToken, logboo
 router.delete('/logbook/delete-final-report/:id', authenticateToken.authenticateToken, logbookController.deleteFinalReport);
 router.post('/logbook/upload-final-report', authenticateToken.authenticateToken, logbookController.submitFinalReport);
 
+router.post('/kuisioner', authenticateToken.authenticateToken, logbookController.createKuisioner);
+
+
 module.exports = router;

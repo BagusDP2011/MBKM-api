@@ -55,10 +55,61 @@ async function deleteFinalReportById(id) {
   return { message };
 }
 
+//Kuisioner
+async function createKuisioner(data) {
+
+  console.log(data);
+  let evaluasi = null;
+
+  try {
+    evaluasi = data.evaluasi ? JSON.parse(data.evaluasi) : null;
+  } catch (e) {
+    console.error("Invalid JSON format in evaluasi");
+  }
+
+  // Pastikan data tidak mengandung undefined
+  const values = [
+    data.userId ?? null,
+    evaluasi ?? null,
+    data.kesan ?? null,
+    data.kendala ?? null,
+    data.masukan ?? null
+  ];
+
+  // Log nilai yang akan dimasukkan ke dalam query
+  console.log("Values to insert:", values);
+
+  const result = await db.query(
+    `INSERT INTO tbllaporanakhirkuisioner (UserID, evaluasi, kesan, kendala, masukan) VALUES(?,?,?,?,?)`,
+    values
+  );
+
+  let message = "Error in submitting quisioner, please contact admin";
+
+  if (result.affectedRows) {
+    message = "Quisioner added successfully";
+  }
+
+  // const result = await db.query(
+  //   `INSERT INTO tbllaporanakhirkuisioner (UserID, evaluasi, kesan, kendala, masukan) VALUES(?,?,?,?,?)`,
+  //   [data.userId, data.evaluasi, data.kesan, data.kendala, data.masukan]
+  // );
+
+  // let message = "Error in submitting quisioner, please contact admin";
+
+  // if (result.affectedRows) {
+  //   message = "Quisioner added successfully";
+  // }
+
+  return { message };
+}
+
+
 module.exports = {
   getLogbookBySubmissionID,
   getLogbookMentorship,
   createLogbook,
   getFinalReportBySubmissionId,
-  deleteFinalReportById
+  deleteFinalReportById,
+  createKuisioner,
 };

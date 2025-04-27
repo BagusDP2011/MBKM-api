@@ -31,7 +31,9 @@ async function getUserByID(userId) {
   u.Email, 
   u.ProdiID, 
   u.UserPhoto,
-  p.ProdiName
+  p.ProdiName,
+  u.Kontak,
+  u.TempatTanggalLahir
 FROM 
   tbluser u 
   INNER JOIN tblprodi p ON u.ProdiID = p.ProdiID 

@@ -81,7 +81,15 @@ const deleteFinalReport = async (req, res, next) => {
   }
 };
 
-
+//kuisioner
+async function createKuisioner(req, res, next) {
+  try {
+    res.json(await logbookService.createKuisioner(req.body));
+  } catch (err) {
+    console.error(`Error while adding Quisioner`, err.message);
+    next(err);
+  }
+}
 
 module.exports = {
   getLogbookBySubmissionID,
@@ -89,5 +97,6 @@ module.exports = {
   createLogbook,
   submitFinalReport,
   getFinalReport,
-  deleteFinalReport
+  deleteFinalReport,
+  createKuisioner,
 };
