@@ -27,8 +27,13 @@ const formatDate = (date) => {
 };
 
 
-async function getFinalReportBySubmissionId(submissionId, userId) {
-  return await logbookRepo.getFinalReportBySubmissionId(submissionId, userId);;
+async function getFinalReportBySubmissionId(submissionId) {
+  const result = await logbookRepo.getFinalReportBySubmissionId(submissionId);
+  const subAttachment = result.map(item => ({
+    ...item,
+    Base64: item.Base64?.toString('base64')
+}));
+  return subAttachment
 }
 
 
