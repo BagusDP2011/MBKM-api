@@ -34,14 +34,13 @@ async function createLogbook(logbook) {
   return { message };
 }
 
-async function getFinalReportBySubmissionId(submissionId, userId) {
+async function getFinalReportBySubmissionId(submissionId) {
   const query = `
-    SELECT fr.*
-    FROM tbllaporanakhirattachment fr
-    JOIN tblsubmission s ON fr.SubmissionID = s.SubmissionID
-    WHERE s.StudentID = ? AND s.SubmissionID = ?
+    SELECT *
+    FROM tbllaporanakhirattachment
+    WHERE SubmissionID = ?
   `;
-  const result = await db.query(query, [userId, submissionId]);
+  const result = await db.query(query, [submissionId]);
   return result;
 }
 
