@@ -1,4 +1,5 @@
 const submissionService = require("../services/submission.service");
+const staticService = require("../services/static.service");
 
 async function submit(req, res, next) {
   try {
@@ -73,6 +74,19 @@ async function getSubmissionStatus(req, res, next) {
   }
 }
 
+async function getSubmissionLAData(req, res, next) {
+  try {
+    res.json(
+      await submissionService.getSubmissionsById(req.user.id, req.user.accessId),
+      // await submissionService.getSubmissionStatus(req.user.accessId),
+      // await staticService.getUserByAccessID(req.user.accessId)
+    );
+  } catch (err) {
+    console.error(`Error while getting submission detail`, err.message);
+    next(err);
+  }
+}
+
 async function getSubmissionMentorship(req, res, next) {
   try {
     res.json(
@@ -115,4 +129,5 @@ module.exports = {
   getSubmissionStatus,
   getSubmissionMentorship,
   deleteSubmission,
+  getSubmissionLAData,
 };

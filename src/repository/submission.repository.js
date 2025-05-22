@@ -14,7 +14,7 @@ async function create(submissionId, s) {
       s.Reason,
       s.Title,
       s.InstitutionName,
-      new Date(s.StartDate),  // Converts string to Date
+      new Date(s.StartDate), // Converts string to Date
       new Date(s.EndDate),
       s.Position,
       s.ActivityDetails,
@@ -32,7 +32,6 @@ async function create(submissionId, s) {
   return { message };
 }
 
-
 async function updateSubmissionApproval(
   submissionId,
   approverId,
@@ -48,7 +47,7 @@ async function updateSubmissionApproval(
   if (result.affectedRows) {
     message = "Submission Approval updated successfully";
   }
-''
+  ("");
   return { message };
 }
 
@@ -129,6 +128,33 @@ async function getSubmissionById(submissionId, accessId) {
   );
   const data = helper.emptyOrRows(submission);
   return data[0];
+}
+
+async function getSubmissionByUserId(id, accessId) {
+  const submission = await db.query(
+    `      
+    SELECT 
+    s.*, 
+    u.Name, 
+    laa.*,
+    COUNT(laa.AttachmentStatus) AS TotalAttachments, 
+    CASE 
+        WHEN COUNT(CASE WHEN laa.AttachmentStatus != 'Sukses' THEN 1 END) > 0 THEN 'Pending'
+        ELSE 'Sukses'
+    END AS AttachmentStatus
+    FROM tblapprover a
+    INNER JOIN tblsubmissionapproval sa ON a.ApproverID = sa.ApproverID
+    INNER JOIN tblsubmission s ON sa.SubmissionID = s.SubmissionID
+    LEFT JOIN tbllaporanakhirattachment laa ON laa.SubmissionID = s.SubmissionID
+    LEFT JOIN tbluser u ON s.StudentID = u.UserID
+    WHERE a.ApproverID = 3 
+      AND u.AccessID = '${accessId}' 
+      AND s.StudentID = '${id}'
+    GROUP BY s.SubmissionID, u.Name, sa.ApprovalID, sa.ApproverID, sa.SubmissionID, laa.AttachmentStatus, sa.ApprovalDate
+      `
+  );
+  const data = helper.emptyOrRows(submission);
+  return data;
 }
 
 async function getSubmissionAttBySubId(submissionId) {
@@ -342,7 +368,9 @@ WHERE
 }
 
 async function getSubmissionMentorship(userId) {
-  const rows = await db.query(`SELECT u.Name,p.ProdiName,s.* FROM tblsubmission s INNER JOIN tblUser u ON s.StudentID = u.UserID INNER JOIN tblProdi p ON s.ProdiID = p.ProdiID WHERE LecturerGuardianID='${userId}' AND s.Status = 'Approved'`);
+  const rows = await db.query(
+    `SELECT u.Name,p.ProdiName,s.* FROM tblsubmission s INNER JOIN tblUser u ON s.StudentID = u.UserID INNER JOIN tblProdi p ON s.ProdiID = p.ProdiID WHERE LecturerGuardianID='${userId}' AND s.Status = 'Approved'`
+  );
   const data = helper.emptyOrRows(rows);
   return data;
 }
@@ -454,7 +482,7 @@ FROM
 GROUP BY 
   p.ProdiName;
 `);
-  
+
   const data = helper.emptyOrRows(rows);
   return data;
 }
@@ -470,8 +498,8 @@ SUM(CASE WHEN ProgramType = 'Magang Praktik Kerja' THEN 1 ELSE 0 END) AS D,
 SUM(CASE WHEN ProgramType = 'Asistensi Mengajar di Satuan Pendidikan' THEN 1 ELSE 0 END) AS E,
 SUM(CASE WHEN ProgramType = 'Pertukaran Pelajar' THEN 1 ELSE 0 END) AS F
 FROM tblsubmission WHERE SubmissionID IN (SELECT SubmissionID FROM tblsubmission WHERE LecturerGuardianID = '${mentorId}' AND Status='Approved');`
-  )
-  const data = helper.emptyOrRows(rows)  ;
+  );
+  const data = helper.emptyOrRows(rows);
   return data;
 }
 
@@ -543,5 +571,6 @@ module.exports = {
   getAllSubmissionStatusGroupByProdi,
   getTotalSubmissionProgramTypeMentorship,
   getTotalSubmissionGropByProdi,
-  getTotalSubmissionMentorship
+  getTotalSubmissionMentorship,
+  getSubmissionByUserId,
 };
