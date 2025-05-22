@@ -91,6 +91,15 @@ async function createKuisioner(req, res, next) {
   }
 }
 
+async function getKuisioner(req, res, next) {
+  try {
+    res.json(await logbookService.getKuisioner(req.body));
+  } catch (err) {
+    console.error(`Error while adding Quisioner`, err.message);
+    next(err);
+  }
+}
+
 module.exports = {
   getLogbookBySubmissionID,
   getLogbookMentorship,
@@ -99,4 +108,5 @@ module.exports = {
   getFinalReport,
   deleteFinalReport,
   createKuisioner,
+  getKuisioner,
 };

@@ -56,7 +56,6 @@ async function deleteFinalReportById(id) {
 
 //Kuisioner
 async function createKuisioner(data) {
-
   console.log(data);
   let evaluasi = null;
 
@@ -72,7 +71,7 @@ async function createKuisioner(data) {
     evaluasi ?? null,
     data.kesan ?? null,
     data.kendala ?? null,
-    data.masukan ?? null
+    data.masukan ?? null,
   ];
 
   // Log nilai yang akan dimasukkan ke dalam query
@@ -88,21 +87,18 @@ async function createKuisioner(data) {
   if (result.affectedRows) {
     message = "Quisioner added successfully";
   }
-
-  // const result = await db.query(
-  //   `INSERT INTO tbllaporanakhirkuisioner (UserID, evaluasi, kesan, kendala, masukan) VALUES(?,?,?,?,?)`,
-  //   [data.userId, data.evaluasi, data.kesan, data.kendala, data.masukan]
-  // );
-
-  // let message = "Error in submitting quisioner, please contact admin";
-
-  // if (result.affectedRows) {
-  //   message = "Quisioner added successfully";
-  // }
-
   return { message };
 }
 
+async function getKuisioner(data) {
+  const result = await db.query(
+    `
+      SELECT * FROM tbllaporanakhirkuisioner WHERE UserID = '${data.userId}' 
+    `
+  );
+  const hasil = helper.emptyOrRows(result);
+  return hasil;
+}
 
 module.exports = {
   getLogbookBySubmissionID,
@@ -111,4 +107,5 @@ module.exports = {
   getFinalReportBySubmissionId,
   deleteFinalReportById,
   createKuisioner,
+  getKuisioner,
 };

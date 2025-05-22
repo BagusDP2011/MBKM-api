@@ -50,6 +50,9 @@ const deleteFinalReportById = async (id) => {
 async function createKuisioner(data) {
   return await logbookRepo.createKuisioner(data);
 }
+async function getKuisioner(data) {
+  return await logbookRepo.getKuisioner(data);
+}
 module.exports = {
   createLogbook,
   getLogbookBySubmissionID,
@@ -58,4 +61,5 @@ module.exports = {
   getFinalReportBySubmissionId,
   deleteFinalReportById,
   createKuisioner,
+  getKuisioner,
 };
