@@ -9,6 +9,7 @@ router.get('/submission', authenticateToken.authenticateToken, submissionControl
 router.get('/pending-submission', authenticateToken.authenticateToken, submissionController.getSubmissionByAccessID);
 router.get('/submission-status', authenticateToken.authenticateToken, submissionController.getSubmissionStatus);
 router.post('/submission-ladata', authenticateToken.authenticateToken, submissionController.getSubmissionLAData);
+router.post('/submission-allladata', authenticateToken.authenticateToken, submissionController.getAllSubmissionLAData);
 router.get('/submission-mentorship', authenticateToken.authenticateToken, submissionController.getSubmissionMentorship);
 router.delete('/submission/:submissionId', authenticateToken.authenticateToken, submissionController.deleteSubmission);
 router.post('/submission/approve/:submissionId', authenticateToken.authenticateToken, submissionController.approve);
