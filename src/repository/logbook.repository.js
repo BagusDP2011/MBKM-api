@@ -44,6 +44,60 @@ async function getFinalReportBySubmissionId(submissionId) {
   return result;
 }
 
+// approve Final report
+async function approveFinalReport(reportId, accessId) {
+  if (!reportId?.id) {
+    throw new Error("reportId.id tidak boleh kosong");
+  }
+
+  let status;
+
+  if (accessId === 2) {
+    status = 'TU Approve';
+  } else if (accessId === 4) {
+    status = 'KPS Approve';
+  } else {
+    throw new Error("Akses ID tidak dikenali");
+  }
+
+  const query = `
+    UPDATE tbllaporanakhirattachment
+    SET status = ?, Comment = NULL
+    WHERE LAAttachmentID = ?
+  `;
+
+  const result = await db.query(query, [status, reportId.id]);
+  return result;
+}
+
+
+// reject Final Report
+async function rejectFinalReport(reportId, accessId, note) {
+  if (!reportId?.id || !note) {
+    throw new Error("reportId.id dan note tidak boleh kosong");
+  }
+
+  let status;
+
+  if (accessId === 2) {
+    status = 'TU Reject';
+  } else if (accessId === 4) {
+    status = 'KPS Reject';
+  } else {
+    throw new Error("Akses ID tidak dikenali");
+  }
+
+  const query = `
+    UPDATE tbllaporanakhirattachment
+    SET status = ?, Comment = ?
+    WHERE LAAttachmentID = ?
+  `;
+
+  const result = await db.query(query, [status, note, reportId.id]);
+  return result;
+}
+
+
 async function deleteFinalReportById(id) {
   await db.query(
     `DELETE FROM tbllaporanakhirattachment WHERE LAAttachmentID = '${id}'`
@@ -56,7 +110,6 @@ async function deleteFinalReportById(id) {
 
 //Kuisioner
 async function createKuisioner(data) {
-  console.log(data);
   let evaluasi = null;
 
   try {
@@ -74,8 +127,6 @@ async function createKuisioner(data) {
     data.masukan ?? null,
   ];
 
-  // Log nilai yang akan dimasukkan ke dalam query
-  console.log("Values to insert:", values);
 
   const result = await db.query(
     `INSERT INTO tbllaporanakhirkuisioner (UserID, evaluasi, kesan, kendala, masukan) VALUES(?,?,?,?,?)`,
@@ -108,4 +159,6 @@ module.exports = {
   deleteFinalReportById,
   createKuisioner,
   getKuisioner,
+  approveFinalReport,
+  rejectFinalReport
 };

@@ -38,6 +38,28 @@ async function submitFinalReport(req, res, next) {
     next(err);
   }
 }
+// approve final report
+async function approveFinalReport(req, res, next) {
+  const reportId = req.params;
+  const { accessId } = req.body
+  try {
+    res.json(await logbookService.approveFinalReport(reportId, accessId));
+  } catch (err) {
+    console.error(`Error while submit item`, err.message);
+    next(err);
+  }
+}
+// reject final report
+async function rejectFinalReport(req, res, next) {
+  const reportId = req.params;
+  const { accessId, note } = req.body
+  try {
+    res.json(await logbookService.rejectFinalReport(reportId, accessId, note));
+  } catch (err) {
+    console.error(`Error while submit item`, err.message);
+    next(err);
+  }
+}
 
 async function getFinalReport(req, res, next) {
   const submissionId = req.query.SubmissionID;
@@ -109,4 +131,6 @@ module.exports = {
   deleteFinalReport,
   createKuisioner,
   getKuisioner,
+  approveFinalReport,
+  rejectFinalReport
 };

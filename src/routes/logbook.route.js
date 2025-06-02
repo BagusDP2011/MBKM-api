@@ -9,6 +9,8 @@ router.get('/logbook-mentorship', authenticateToken.authenticateToken, logbookCo
 router.get('/logbook/:submissionId', authenticateToken.authenticateToken, logbookController.getLogbookBySubmissionID);
 router.delete('/logbook/delete-final-report/:id', authenticateToken.authenticateToken, logbookController.deleteFinalReport);
 router.post('/logbook/upload-final-report', authenticateToken.authenticateToken, logbookController.submitFinalReport);
+router.put('/logbook/approve-final-report/:id', authenticateToken.authenticateToken, logbookController.approveFinalReport);
+router.put('/logbook/reject-final-report/:id', authenticateToken.authenticateToken, logbookController.rejectFinalReport);
 
 router.post('/kuisioner-get', authenticateToken.authenticateToken, logbookController.getKuisioner);
 router.post('/kuisioner', authenticateToken.authenticateToken, logbookController.createKuisioner);

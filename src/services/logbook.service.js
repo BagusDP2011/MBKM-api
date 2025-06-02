@@ -45,6 +45,14 @@ const deleteFinalReportById = async (id) => {
   const result = await logbookRepo.deleteFinalReportById(id);
   return result;
 };
+const approveFinalReport = async (reportId, accessId) => {
+  const result = await logbookRepo.approveFinalReport(reportId, accessId);
+  return result;
+};
+const rejectFinalReport = async (reportId, accessId, note) => {
+  const result = await logbookRepo.rejectFinalReport(reportId, accessId, note);
+  return result;
+};
 
 //Kuisioner
 async function createKuisioner(data) {
@@ -62,4 +70,6 @@ module.exports = {
   deleteFinalReportById,
   createKuisioner,
   getKuisioner,
+  approveFinalReport,
+  rejectFinalReport
 };

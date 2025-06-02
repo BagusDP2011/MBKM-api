@@ -15,10 +15,10 @@ async function addAttachment(submissionId, attachment) {
 
     let message = "Error in add Attachment";
 
-    if (result.affectedRows) {  
+    if (result.affectedRows) {
         message = "Attachment created successfully";
     }
-    
+
     return { message };
 }
 async function addAttachmentFinalReport(submissionId, attachment) {
@@ -34,14 +34,18 @@ async function addAttachmentFinalReport(submissionId, attachment) {
     const base64Data = base64String.replace(/^data:([A-Za-z-+/]+);base64,/, '');
     const bufferData = Buffer.from(base64Data, 'base64');
 
-    const result = await db.query(`INSERT INTO tbllaporanakhirattachment (SubmissionID, AttachType, Base64, AttachmentName) VALUES(?, ?, ?, ?)`, 
+    const result = await db.query(
+        `INSERT INTO tbllaporanakhirattachment (SubmissionID, AttachType, Base64, AttachmentName, Status, Comment) VALUES (?, ?, ?, ?, ?, ?)`,
         [
             submissionId,
             'pdf',
             bufferData,
-            fileName
+            fileName,
+            'Waiting Approval',
+            null 
         ]
     );
+
 
     let message = "Error in add Attachment Final Report";
 
