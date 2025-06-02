@@ -135,6 +135,19 @@ async function getSubmissionsById(id, accessID) {
   return submissions;
 }
 
+async function getSubmissionByUserEveryone(id, accessID) {
+  let submissions = await submissionRepo.getSubmissionByUserEveryone(id, accessID);
+  if (!Array.isArray(submissions)) {
+    submissions = [];
+  }
+  submissions.forEach((submission) => {
+    submission.SubmissionDate = dateFormatted(submission.SubmissionDate);
+    submission.StartDate = dateFormatted(submission.StartDate);
+    submission.EndDate = dateFormatted(submission.EndDate);
+  });
+  return submissions;
+}
+
 function dateFormatted(dateId) {
   const date = new Date(dateId);
   const options = { day: "numeric", month: "long", year: "numeric" };
@@ -281,4 +294,5 @@ module.exports = {
   updateLucturerSubmission,
   reject,
   getSubmissionsById,
+  getSubmissionByUserEveryone,
 };

@@ -87,6 +87,19 @@ async function getSubmissionLAData(req, res, next) {
   }
 }
 
+async function getAllSubmissionLAData(req, res, next) {
+  try {
+    res.json(
+      await submissionService.getSubmissionByUserEveryone(req.user.id, req.user.accessId),
+      // await submissionService.getSubmissionStatus(req.user.accessId),
+      // await staticService.getUserByAccessID(req.user.accessId)
+    );
+  } catch (err) {
+    console.error(`Error while getting submission detail`, err.message);
+    next(err);
+  }
+}
+
 async function getSubmissionMentorship(req, res, next) {
   try {
     res.json(
@@ -130,4 +143,5 @@ module.exports = {
   getSubmissionMentorship,
   deleteSubmission,
   getSubmissionLAData,
+  getAllSubmissionLAData,
 };

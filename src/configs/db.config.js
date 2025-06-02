@@ -6,7 +6,7 @@ const db = {
     // database: 'sql12747330',
     host: 'localhost',
     user: 'root',
-    database: 'mbkm_sec',
+    database: 'mbkmApps',
     port: env.DB_PORT || 3306,
     password: 'password',
     // ssl: {
