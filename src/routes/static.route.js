@@ -15,5 +15,6 @@ router.post('/column', staticController.updateColumnWidth);
 // Access
 router.get('/role-detail', staticController.getRoleDetail);
 router.get('/user/:accessId', staticController.getUserByAccessID);
+router.get('/user/id/:UserID', staticController.getUserByUserID);
 
 module.exports = router;

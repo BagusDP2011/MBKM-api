@@ -1,4 +1,5 @@
 const logbookRepo = require("../repository/logbook.repository");
+const laporanRepo = require("../repository/laporan.repository");
 const attachmentRepo = require("../repository/attachment.repository")
 
 async function createLogbook(logbook) {
@@ -61,6 +62,16 @@ async function createKuisioner(data) {
 async function getKuisioner(data) {
   return await logbookRepo.getKuisioner(data);
 }
+async function addRowHasil(Kode_Matkul, Nama_Matkul, Nilai, Predikat, StudentID, SubmissionID) {
+  return await laporanRepo.addRowHasil(Kode_Matkul, Nama_Matkul, Nilai, Predikat, StudentID, SubmissionID);
+}
+async function getRowHasil(UserID) {
+  return await laporanRepo.getRowHasil(UserID);
+}
+async function deleteHasilLaporan(HasilID) {
+  return await laporanRepo.deleteHasilLaporan(HasilID);
+}
+
 module.exports = {
   createLogbook,
   getLogbookBySubmissionID,
@@ -71,5 +82,8 @@ module.exports = {
   createKuisioner,
   getKuisioner,
   approveFinalReport,
-  rejectFinalReport
+  rejectFinalReport,
+  addRowHasil,
+  getRowHasil,
+  deleteHasilLaporan,
 };

@@ -136,7 +136,10 @@ async function getSubmissionsById(id, accessID) {
 }
 
 async function getSubmissionByUserEveryone(id, accessID) {
-  let submissions = await submissionRepo.getSubmissionByUserEveryone(id, accessID);
+  let submissions = await submissionRepo.getSubmissionByUserEveryone(
+    id,
+    accessID
+  );
   if (!Array.isArray(submissions)) {
     submissions = [];
   }
@@ -174,6 +177,8 @@ async function getSubmissionDetail(submissionId, user) {
     ...item,
     Base64: item.Base64?.toString("base64"),
   }));
+
+  console.log(submission);
 
   let studentDetail = await userRepo.getUserByID(submission.StudentID);
   studentDetail.UserPhoto = studentDetail.UserPhoto?.toString("base64");
@@ -282,6 +287,19 @@ function uuidv4() {
   });
 }
 
+async function getAllLASuksesData(id, accessID) {
+  let submissions = await submissionRepo.getAllLASuksesData(id, accessID);
+  if (!Array.isArray(submissions)) {
+    submissions = [];
+  }
+  submissions.forEach((submission) => {
+    submission.SubmissionDate = dateFormatted(submission.SubmissionDate);
+    submission.StartDate = dateFormatted(submission.StartDate);
+    submission.EndDate = dateFormatted(submission.EndDate);
+  });
+  return submissions;
+}
+
 module.exports = {
   submit,
   getSubmissions,
@@ -295,4 +313,5 @@ module.exports = {
   reject,
   getSubmissionsById,
   getSubmissionByUserEveryone,
+  getAllLASuksesData,
 };

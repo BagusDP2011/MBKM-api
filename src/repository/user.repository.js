@@ -1,6 +1,14 @@
 const db = require("./db.service");
 const helper = require("../utils/helper.util");
 
+async function getUserByUserID(UserID) {
+  const rows = await db.query(
+    `SELECT * FROM tbluser INNER JOIN tblprodi ON tbluser.ProdiID = tblprodi.ProdiID WHERE UserID = ${UserID}`
+  );
+  const data = helper.emptyOrRows(rows);
+  return data[0];
+}
+
 async function getUserByEmailOrName(user) {
   const rows = await db.query(
     `SELECT * FROM tbluser INNER JOIN tblprodi ON tbluser.ProdiID = tblprodi.ProdiID WHERE LOWER(Email) = LOWER('${user}') OR LOWER(Name) = LOWER('${user}')`
@@ -60,5 +68,6 @@ module.exports = {
   createUser,
   getUserByID,
   getAvatar,
-  getUserByAccessID
+  getUserByAccessID,
+  getUserByUserID,
 };

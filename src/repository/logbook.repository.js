@@ -66,6 +66,16 @@ async function approveFinalReport(reportId, accessId) {
     WHERE LAAttachmentID = ?
   `;
 
+    // Jika status adalah 'KPS Approve', ubah juga AttachmentStatus menjadi 'Sukses'
+  if (accessId === 4) {
+    const updateAttachmentStatusQuery = `
+      UPDATE tbllaporanakhirattachment
+      SET AttachmentStatus = 'Sukses'
+      WHERE LAAttachmentID = ?
+    `;
+    await db.query(updateAttachmentStatusQuery, [reportId.id]);
+  }
+
   const result = await db.query(query, [status, reportId.id]);
   return result;
 }

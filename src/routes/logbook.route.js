@@ -15,5 +15,9 @@ router.put('/logbook/reject-final-report/:id', authenticateToken.authenticateTok
 router.post('/kuisioner-get', authenticateToken.authenticateToken, logbookController.getKuisioner);
 router.post('/kuisioner', authenticateToken.authenticateToken, logbookController.createKuisioner);
 
-
+//Konversi nilai
+router.get('/hasil-nilai-get/:UserID', authenticateToken.authenticateToken, logbookController.getRowHasil);
+router.post('/hasil-nilai-add/:UserID', authenticateToken.authenticateToken, logbookController.addRowHasil);
+router.get('/hasil-nilai-delete/:HasilID', authenticateToken.authenticateToken, logbookController.deleteHasilLaporan);
+ 
 module.exports = router;

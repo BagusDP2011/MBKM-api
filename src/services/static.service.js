@@ -90,6 +90,10 @@ async function getUserByAccessID(accessID) {
   return await userRepo.getUserByAccessID(accessID)
 }
 
+async function getUserByUserID(UserID) {
+  return await userRepo.getUserByUserID(UserID)
+}
+
 module.exports = {
   getColumnSetup,
   updateWidthColumn,
@@ -99,4 +103,5 @@ module.exports = {
   getMenuAccessDetailByAccessID,
   getRedirectMenuByAccessID,
   getUserByAccessID,
+  getUserByUserID,
 };

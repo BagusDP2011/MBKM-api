@@ -205,7 +205,33 @@ WHERE a.ApproverID = 3
     //   HAVING COUNT(laa.AttachmentStatus) > 0;
   );
   const data = helper.emptyOrRows(submission);
-  console.log("ini id" + id + "ini accessid" + accessId);
+  return data;
+}
+async function getAllLASuksesData(id, accessId) {
+  const submission = await db.query(
+    `     
+   SELECT
+   s.*,
+   u.Name,
+   laa.*,
+   COUNT(laa.AttachmentStatus) AS TotalAttachments
+   -- CASE
+--        WHEN COUNT(CASE WHEN laa.AttachmentStatus != 'Approved' THEN 1 END) > 0 THEN 'Pending'
+--        ELSE 'Approved'
+--    END AS AttachmentStatus
+   FROM tblapprover a
+   INNER JOIN tblsubmissionapproval sa ON a.ApproverID = sa.ApproverID
+   INNER JOIN tblsubmission s ON sa.SubmissionID = s.SubmissionID
+   LEFT JOIN tbllaporanakhirattachment laa ON laa.SubmissionID = s.SubmissionID
+   LEFT JOIN tbluser u ON s.StudentID = u.UserID
+   WHERE a.ApproverID = 3
+     AND u.AccessID = '1'
+	 AND AttachmentStatus = 'Sukses'
+     GROUP BY s.SubmissionID, u.Name, sa.ApprovalID, sa.ApproverID, sa.SubmissionID, laa.AttachmentStatus, sa.ApprovalDate
+     HAVING COUNT(laa.AttachmentStatus) > 0;
+     `
+  );
+  const data = helper.emptyOrRows(submission);
   return data;
 }
 
@@ -626,4 +652,5 @@ module.exports = {
   getTotalSubmissionMentorship,
   getSubmissionByUserId,
   getSubmissionByUserEveryone,
+  getAllLASuksesData,
 };

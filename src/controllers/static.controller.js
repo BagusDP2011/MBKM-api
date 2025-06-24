@@ -81,6 +81,15 @@ async function getRedirectMenuByAccessID(req, res, next) {
   }
 }
 
+async function getUserByUserID(req, res, next) {
+  try {
+    res.json(await staticService.getUserByUserID(req.params.UserID));
+  } catch (err) {
+    console.error(`Error while getting user`, err.message);
+    next(err);
+  }
+}
+
 module.exports = {
     getMenu,
     getBreadcrumbPath,
@@ -90,5 +99,6 @@ module.exports = {
     getMenuAccessDetailByAccessID,
     getRedirectMenuByAccessID,
     getUserByAccessID,
-    getMenuAccessByAccessId
+    getMenuAccessByAccessId,
+    getUserByUserID,
 }

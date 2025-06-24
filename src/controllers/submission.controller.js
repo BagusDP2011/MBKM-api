@@ -131,6 +131,19 @@ async function reAssign(req, res, next) {
   }
 }
 
+async function getAllLASuksesData(req, res, next) {
+  try {
+    res.json(
+      await submissionService.getAllLASuksesData(req.user.id, req.user.accessId),
+      // await submissionService.getSubmissionStatus(req.user.accessId),
+      // await staticService.getUserByAccessID(req.user.accessId)
+    );
+  } catch (err) {
+    console.error(`Error while getting submission detail`, err.message);
+    next(err);
+  }
+}
+
 module.exports = {
   submit,
   approve,
@@ -144,4 +157,5 @@ module.exports = {
   deleteSubmission,
   getSubmissionLAData,
   getAllSubmissionLAData,
+  getAllLASuksesData,
 };
