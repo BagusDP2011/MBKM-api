@@ -7,7 +7,7 @@ async function register(req, res, next) {
   } catch (err) {
     console.error(`Error while register`, err.message);
     res.status(400).json({ message: err.message });
-    next(err);
+    // next(err);
   }
 }
 
@@ -18,8 +18,17 @@ async function login(req, res, next) {
     next(err);
   }
 }
+async function deleteUser(req, res) {
+  try {
+    await userRepo.deleteUser(req.params.id);
+    res.json({ message: "User deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
 
 module.exports = {
     register,
-    login
+    login,
+    deleteUser,
 }

@@ -63,6 +63,10 @@ async function getAvatar() {
   return data;
 }
 
+async function deleteUser(userId) {
+  return await db.query("DELETE FROM tbluser WHERE UserID = ?", [userId]);
+}
+
 module.exports = {
   getUserByEmailOrName,
   createUser,
@@ -70,4 +74,5 @@ module.exports = {
   getAvatar,
   getUserByAccessID,
   getUserByUserID,
+  deleteUser,
 };
