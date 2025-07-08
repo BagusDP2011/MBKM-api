@@ -14,7 +14,8 @@ async function register(params) {
     throw new Error("This user is already in use!");
   } else {
     const hash = await bcrypt.hash(params.password, 10);
-    await userRepo.createUser(params, hash);
+    const result = await userRepo.createUser(params, hash);
+    return result;
   }
 }
 
